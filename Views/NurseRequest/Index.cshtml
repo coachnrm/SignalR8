@@ -1,0 +1,86 @@
+@model List<NurseRequest>
+@{
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>QN</th>
+            <th>ชื่อ-นามสกุล</th>
+            <th>ต้นทาง</th>
+            <th>ปลายทาง</th>
+            <th>พนักงานเวรเปล</th>
+            <th>ประเภทรถ</th>
+            <th>ระดับความเร่งด่วน </th>
+            <th>สถานะ</th>
+            <th>หมายเหตุ</th>
+            <th>ยืนยัน</th>
+            <th>แก้ไข</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var nurserequest in Model)
+        {
+            <tr>
+                <td>@nurserequest.QN</td>
+                <td>@nurserequest.QNName</td>
+                <td>@nurserequest.StartPoint</td>
+                <td>@nurserequest.EndPoint</td>
+                <td>@nurserequest.PoterFname</td>
+                <td>@nurserequest.MaterialType</td>
+                <td>@nurserequest.UrentType</td>
+                <td> </td>
+                <td>@nurserequest.Remark</td>
+                <td> </td>
+                <td style="white-space:nowrap">
+                    <a class="btn btn-danger btn-sm" asp-controllers="NurseRequest" asp-action="Delete" asp-route-id="@nurserequest.JobId" onclick="return confirm('Are you sure?')">Delete</a>
+                    <a class="btn btn-primary btn-sm" asp-controllers="NurseRequest" asp-action="Edit" asp-route-id="@nurserequest.JobId">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table> 
+
+@* @{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+<div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h4>Products</h4>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <table class="table table-hover" id="tblProduct">
+                        <thead>
+                            <tr>
+                                <th>QN</th>
+                                <th>ชื่อ-นามสกุล</th>
+                                <th>ต้นทาง</th>
+                                <th>ปลายทาง</th>
+                                <th>พนักงานเวรเปล</th>
+                                <th>ประเภทรถ</th>
+                                <th>ระดับความเร่งด่วน </th>
+                                <th>สถานะ</th>
+                                <th>หมายเหตุ</th>
+                                <th>ยืนยัน</th>
+                                <th>แก้ไข</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/dashboard.js"></script>
+}  *@

@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SignalR8.Data;
 using SignalR8.Hubs;
 using SignalR8.MiddlewareExtensions;
+using SignalR8.Models;
 using SignalR8.SubscribeTableDependencies;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,9 +18,21 @@ builder.Services.AddControllersWithViews();
 
 // DI
 builder.Services.AddSingleton<DashboardHub>();
+builder.Services.AddSingleton<NurseRequestHub>();
 builder.Services.AddSingleton<SubscribeProductTableDependency>();
 
 builder.Services.AddRazorPages();
+
+builder.Services.AddIdentity<AppUser, IdentityRole>(
+    options =>
+    {
+        options.Password.RequiredUniqueChars = 0;
+        options.Password.RequireUppercase = false;
+        options.Password.RequiredLength = 8;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireLowercase = false;
+    })
+    .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
 var app = builder.Build();
 
@@ -40,7 +54,7 @@ app.MapHub<DashboardHub>("/dashboardHub");
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Dashboard}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.UseSqlTableDependency<SubscribeProductTableDependency>(connectionString);
 app.Run();

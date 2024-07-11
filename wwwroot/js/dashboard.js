@@ -4,7 +4,7 @@ var connection = new signalR.HubConnectionBuilder().withUrl("/dashboardHub").bui
 
 $(function () {
 	connection.start().then(function () {
-		alert('Connected to dashboardHub');
+		// alert('Connected to dashboardHub');
 
 		InvokeProducts();
 

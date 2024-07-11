@@ -1,0 +1,183 @@
+@using SignalR8.ViewModels
+@model LoginVM
+
+@{
+    ViewData["Title"] = "Login";
+}
+<style type="text/css">
+    .overlay {
+        left: 0; @*ด้านซ้าย*@
+        right: 0; @*ด้านขวา*@
+        top: 0; @*ด้านบน*@
+        bottom: 0; @*ด้านล่าง*@
+        background-color: black; @*พื้นหลัง*@
+        opacity: 0.5; @*ความทึบ*@
+        z-index: 2000  @*การซ้อนทับของlayout*@
+    }
+    .loading-wrapper {
+        left: 0; @*ด้านซ้าย*@
+        right: 0; @*ด้านขวา*@
+        top: 0; @*ด้านบน*@
+        bottom: 0; @*ด้านล่าง*@
+        z-index: 2001 @*การซ้อนทับของlayout*@
+    }
+    .wrapper{
+        width: 450px; @*ความกว้าง*@
+        background: transparent; @*พื้นภาพโปร่งใส*@
+        border: 2px solid rgba(255, 255, 255, .2); @*ความหนาของเส้น กับสี*@
+        backdrop-filter: blur(40px); @*การเบลอ*@
+        color: #000000; @*สี*@
+        border-radius: 30px; @*ความโค้ง*@
+        padding: 30px 30px; @*ระยะห่าง*@
+    }
+    .wrapper h3{
+        font-size: 36; @*ขนาดตัวอักษร *@
+        text-align: center; @*ตัวอักษรกึ่งกลาง *@
+    }
+    .wrapper .input-box{
+        width: 100%; @*ความกว้าง*@
+        height: 40px; @*ความสูง*@
+        margin: 30px 10px;
+    }
+    .cen{
+        width: 100%; @*ความกว้าง*@
+        height: 20px; @*ความสูง*@
+        margin: 10px 40px;
+    }
+    .input-box input{
+        width: 300px; @*ความกว้าง*@
+        height: 10px; @*ความสูง*@
+        background: transparent; @*พื้นภาพโปร่งใส*@
+        border: none; @*ไม่แสดงเส้น*@
+        outline: none; @*ไม่แสดงพื้นที่รอบนอก*@
+        border: 2px solid rgba(0, 0, 0, 0.2); @*ความหนาของเส้น กับสี*@
+        border-radius: 10px; @*ความโค้ง*@
+        font-size: 16px; @*ขนาดตัวอักษร *@
+        color: #000000; @*สี*@
+        padding: 20px 50px 20px 35px;
+        margin-left: auto; @*ปรับซ้าย auto  การจัดกึ่งกลาง*@
+        margin-right: auto; @*ปรับขวา auto การจัดกึ่งกลาง*@
+    }
+    .input-box input::placeholder{
+        color: #000000; @*สี*@
+    }
+    .wrapper .btn {
+        width: 40%; @*ความกว้าง*@
+        height: 40px; @*ความสูง*@
+        background: #fff;  @*พื้นหลัง*@
+        border: none; @*ไม่แสดงเส้น*@
+        outline: none; @*ไม่แสดงพื้นที่รอบนอก*@
+        border-radius: 40px; @*ความโค้ง*@
+        box-shadow: 0 0 10px rgba(0, 0, 0, .1); @*สร้างเงา*@
+        cursor: pointer; @*ชี้แล้วเปลี่ยนลูกศร*@
+        color: #000000; @*สี*@
+        font-weight: 600;  @*ขนาดตัวอักษร *@
+        display: block; @*แท็กข้อความ ขึ้นบรรทัดใหม่  การจัดกึ่งกลาง*@
+        margin-left: auto; @*ปรับซ้าย auto  การจัดกึ่งกลาง*@
+        margin-right: auto; @*ปรับขวา auto การจัดกึ่งกลาง*@
+        background-image: linear-gradient(180deg, #1BB67A 0%, #59E3AC 70%);
+    }
+    .cen {
+        @*display: block; แท็กข้อความ ขึ้นบรรทัดใหม่  การจัดกึ่งกลาง*@
+        @*margin-left: auto; ปรับซ้าย auto  การจัดกึ่งกลาง*@
+        @* margin-right: 2000px;ปรับขวา auto การจัดกึ่งกลาง*@
+        text-align: right;
+        width:250px;
+    }
+    .backgroundP1 {
+        background-image: url('images/P1.jpg'); @*พาทรูป*@ 
+        /* background: yellow; */
+        background-repeat: no-repeat; @*การเรียงรูปภาพไปแนวแกน X แนวนอน หรือ Y  รูปจะถูกใช้ครั้งเดียว*@
+        background-position: center; @*จัดตำแหน่งของพื้นหลังให้กึ่งกลาง*@
+        background-attachment: fixed; @**@
+        background-size: cover;  @**@
+        @* max-width: 100%; *@
+        width: 1700px; @*ความกว้าง*@
+        height: 675px; @*ความสูง*@
+        opacity: 0.6; @*ความทึบ*@
+        @* background-size: 100% 100%; *@
+    }
+    .grid{
+        margin-bottom: 3rem; @*ขนาดของปุ่ม*@
+        display: grid; @*จัดช่องไฟ*@
+        grid-template-columns: repeat(auto-fit,minmax(200px, 1fr)); @*1fr คือให้คำนวณพื้นที่ auto*@
+    }
+</style>
+
+<br />
+<br />
+<br />
+<div >
+    <div class="container mt-5 d-flex justify-content-center grid ">
+        <div class="wrapper" >
+            <div  style="height:20px;">
+                <h3>LOGIN</h3>
+            </div>
+            <form asp-action="Login" method="post" asp-route-returnurl="@ViewData["ReturnUrl"]">
+                <div class="card-body" style="height:170px;" >
+                    <div class="input-box">
+                        @* <label asp-for="Username" class="control-label"></label> *@
+                        <input asp-for="Username" class="form-control" placeholder="Enter Username" style="background-color: #fdfce0;" />
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span asp-validation-for="Username" class="text-danger"  ></span>
+                    </div>
+                    <div class="input-box">
+                        @* <label asp-for="Password" class="control-label"></label> *@
+                        <input asp-for="Password" class="form-control" placeholder="Enter Password" style="background-color: #fdfce0;" />
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span asp-validation-for="Password" class="text-danger"  ></span>
+                    </div>
+                    <div class="mb-1 form-check">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <label class="form-check-label">
+                            <input asp-for="RememberMe" class="form-check-input" /> @Html.DisplayNameFor(a=>a.RememberMe)
+                        </label>
+                    </div>
+                    <div class="border ">
+                        <a asp-action="Register" class="text-decoration-none float-start mt-2" asp-route-returnurl="@ViewData["ReturnUrl"]">Don't have account?</a>
+                    </div>
+                     <div class="border ">
+                        <input type="submit" value="Login" class="btn btn-primary btn-sm " />
+                    </div>
+                </div>
+               
+            </form>
+        </div>
+    </div>
+</div>  
+@* <br />
+<br />
+<div class="row d-flex align-items-center justify-content-center">
+    <div class="col-md-3 card p-3">
+        <h2 class="text-center text-info">Login</h2>
+        <form asp-action="Login" method="post" asp-route-returnurl="@ViewData["ReturnUrl"]">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="mb-1">
+                <label asp-for="Username" class="control-label"></label>
+                <input asp-for="Username" class="form-control" />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+            <div class="mb-1">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="mb-1 form-check">
+                <label class="form-check-label">แแแแแแแ
+                    <input asp-for="RememberMe" class="form-check-input" /> @Html.DisplayNameFor(a=>a.RememberMe)
+                </label>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    <a asp-action="Register" class="text-decoration-none float-start mt-2" asp-route-returnurl="@ViewData["ReturnUrl"]">Don't have account?</a>
+                </div>
+                <div class="col-4">
+                    <input type="submit" value="Login" class="btn btn-primary btn-sm float-end" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div> *@
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
