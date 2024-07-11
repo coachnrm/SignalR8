@@ -11,5 +11,13 @@ namespace SignalR8.MiddlewareExtensions
             var service = serviceProvider.GetService<T>();
             service.SubscribeTableDependency(connectionString);
         }
+
+        public static void UseNurseRequestTableDependency<T>(this IApplicationBuilder applicationBuilder, string connectionString)
+            where T : ISubscribeTableDependency
+        {
+            var serviceProvider = applicationBuilder.ApplicationServices;
+            var service = serviceProvider.GetService<SubscribeNurseRequestTableDependency>();
+            service.SubscribeTableDependency(connectionString);
+        }
     }
 }

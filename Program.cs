@@ -18,8 +18,8 @@ builder.Services.AddControllersWithViews();
 
 // DI
 builder.Services.AddSingleton<DashboardHub>();
-builder.Services.AddSingleton<NurseRequestHub>();
 builder.Services.AddSingleton<SubscribeProductTableDependency>();
+builder.Services.AddSingleton<SubscribeNurseRequestTableDependency>();
 
 builder.Services.AddRazorPages();
 
@@ -57,4 +57,5 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.UseSqlTableDependency<SubscribeProductTableDependency>(connectionString);
+app.UseSqlTableDependency<SubscribeNurseRequestTableDependency>(connectionString);
 app.Run();

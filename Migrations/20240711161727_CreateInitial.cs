@@ -53,7 +53,7 @@ namespace SignalR8.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "NurseRequests",
+                name: "NurseRequest",
                 columns: table => new
                 {
                     JobId = table.Column<int>(type: "int", nullable: false)
@@ -78,7 +78,7 @@ namespace SignalR8.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_NurseRequests", x => x.JobId);
+                    table.PrimaryKey("PK_NurseRequest", x => x.JobId);
                 });
 
             migrationBuilder.CreateTable(
@@ -261,7 +261,7 @@ namespace SignalR8.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "NurseRequests");
+                name: "NurseRequest");
 
             migrationBuilder.DropTable(
                 name: "Product");

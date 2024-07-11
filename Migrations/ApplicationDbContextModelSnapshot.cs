@@ -300,7 +300,9 @@ namespace SignalR8.Migrations
 
                     b.HasKey("JobId");
 
-                    b.ToTable("NurseRequests");
+                    b.ToTable("NurseRequest");
+
+                    b.HasAnnotation("SqlServer:UseSqlOutputClause", false);
                 });
 
             modelBuilder.Entity("SignalR8.Models.Product", b =>
@@ -325,6 +327,8 @@ namespace SignalR8.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Product");
+
+                    b.HasAnnotation("SqlServer:UseSqlOutputClause", false);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

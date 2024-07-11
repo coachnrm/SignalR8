@@ -13,7 +13,7 @@ namespace SignalR8.Controllers;
         }
         public IActionResult Index()
         {
-            var nurserequest = context.NurseRequests.OrderByDescending(p => p.JobId).ToList();
+            var nurserequest = context.NurseRequest.OrderByDescending(p => p.JobId).ToList();
             return View(nurserequest);
         }
          public IActionResult Create()
@@ -22,7 +22,7 @@ namespace SignalR8.Controllers;
          }
 
         [HttpPost]
-        public IActionResult Create(NurseRequestDto nurseRequestDto)
+        public async Task<IActionResult> Create(NurseRequestDto nurseRequestDto)
         {
             if (ModelState.IsValid)
             {
@@ -44,14 +44,14 @@ namespace SignalR8.Controllers;
                 QNAge = "null",
                 QNSex = "null",
             };
-            context.NurseRequests.Add(nurseRequest);
-            context.SaveChanges();
+            await context.NurseRequest.AddAsync(nurseRequest);
+            await context.SaveChangesAsync();
             return RedirectToAction("Index", "NurseRequest");
         }
 
         public IActionResult Edit(int id)
         {
-            var nurseRequest = context.NurseRequests.Find(id);
+            var nurseRequest = context.NurseRequest.Find(id);
             if(nurseRequest == null)
             {
                 return RedirectToAction("Index", "NurseRequest");
@@ -79,7 +79,7 @@ namespace SignalR8.Controllers;
         [HttpPost]
          public IActionResult Edit(int id, NurseRequestDto nurseRequestDto)
          {
-            var nurseRequest = context.NurseRequests.Find(id);
+            var nurseRequest = context.NurseRequest.Find(id);
             if(nurseRequest == null)
             {
                 return RedirectToAction("Index", "NurseRequest");
@@ -105,12 +105,12 @@ namespace SignalR8.Controllers;
          }
          public IActionResult Delete(int id)
         {
-            var nurseRequest = context.NurseRequests.Find(id);
+            var nurseRequest = context.NurseRequest.Find(id);
             if(nurseRequest == null)
             {
                 return RedirectToAction("Index", "NurseRequest");
             }
-            context.NurseRequests.Remove(nurseRequest);
+            context.NurseRequest.Remove(nurseRequest);
             context.SaveChanges(true);
 
             return RedirectToAction("Index", "NurseRequest");

@@ -17,7 +17,7 @@ namespace SignalR8.Repositories
 
         public List<NurseRequest> GetNurseRequests()
         {
-            var nurseRequestList = dbContext.NurseRequests.ToList();
+            var nurseRequestList = dbContext.NurseRequest.ToList();
             foreach (var emp in nurseRequestList)
             {
                 dbContext.Entry(emp).Reload();

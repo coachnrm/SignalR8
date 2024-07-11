@@ -2,8 +2,8 @@ namespace SignalR8.Models;
 
 public class NurseRequestDto
     {
-        public DateTime ReqDate { get; set; }   
-        public DateTime ReqTime { get; set; }
+        public DateTime ReqDate { get; set; } 
+        public DateTime ReqTime { get; set; } 
         public DateTime EndDate { get; set; }   
         public DateTime EndTime { get; set; }   
         public int UserId { get; set; } 
