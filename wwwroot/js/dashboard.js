@@ -37,14 +37,14 @@ function BindProductsToGrid(products) {
 		tr.append(`<td>${product.name}</td>`);
 		tr.append(`<td>${product.category}</td>`);
 		tr.append(`<td>${product.price}</td>`);
-		tr.append(`<td><a href="View/${product.Id}></a></td>`);
+		tr.append(`<td><a href="Dashboard/View/${product.id}">View</a></td>`);
 		$('#tblProduct').append(tr);
 	});
 }
 
-// NurseRequest
+//NurseRequest
 function InvokeNurseRequests() {
-	debugger;
+	//debugger;
 	connection.invoke("SendNurseRequests").catch(function (err) {
 		return console.error(err.toString());
 	});

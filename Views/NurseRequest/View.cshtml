@@ -1,14 +1,18 @@
-@model NurseRequestDto
+@model SignalR8.Models.UpdateNurseRequestViewModel
+
 @{
 }
 
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<h1>Update NurseRequest</h1>
+<hr />
 
-<div class="row">
-    <div class="col-md-8 mx-auto rounded border p-2">
-        <h2 class="text-center mb-5">New Product</h2>
 
-
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" action="View" class="mt-5">
+            <div class="mb-3">
+                <label for="" class="form-label">Id</label>
+                <input type="number" class="form-control" asp-for="JobId" readonly> 
+            </div>
             <div class="row mb-3">
                 <label class="col-sm-4 col-form-label">QN</label>
                 <div class=col-sm-8>
@@ -16,31 +20,6 @@
                     <span asp-validation-for="QN" class="text-danger"></span>
                 </div>
             </div>
-
-            <div class="row mb-3">
-                <label class="col-sm-4 col-form-label">QNName</label>
-                <div class=col-sm-8>
-                    <input class="form-control" asp-for="QNName">
-                    <span asp-validation-for="QNName" class="text-danger"></span>
-                </div>
-            </div>
-
-            <div class="row mb-3">
-                <label class="col-sm-4 col-form-label">QNAge</label>
-                <div class=col-sm-8>
-                    <input class="form-control" asp-for="QNAge">
-                    <span asp-validation-for="QNAge" class="text-danger"></span>
-                </div>
-            </div>
-
-            <div class="row mb-3">
-                <label class="col-sm-4 col-form-label">QNSex</label>
-                <div class=col-sm-8>
-                    <input class="form-control" asp-for="QNSex">
-                    <span asp-validation-for="QNSex" class="text-danger"></span>
-                </div>
-            </div>
-
             <div class="row mb-3">
                 <label class="col-sm-4 col-form-label">ชื่อ-นามสกุล</label>
                 <div class=col-sm-8>
@@ -58,25 +37,6 @@
                     </select>
                 </div>
             </div>
-
-            <div class="row mb-3">
-                <label class="col-sm-4 col-form-label">แผนกที่เรียกเวรเปล</label>
-                <div class=col-sm-8>
-                    <select class="form-select" asp-for="Department">
-                        <option value="OPD">อายุรกรรม</option>
-                        <option value="IPD">ศัลยกรรม</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="row mb-3">
-                <label class="col-sm-4 col-form-label">เจ้าหน้าที่เวรเปล</label>
-                 <div class=col-sm-8>
-                    <input class="form-control" asp-for="PoterFname">
-                    <span asp-validation-for="PoterFname" class="text-danger"></span>
-                </div>
-            </div>
-
             <div class="row mb-3">
                 <label class="col-sm-4 col-form-label">ประเภทความเร่งด่วน</label>
                 <div class=col-sm-8>
@@ -141,12 +101,8 @@
             </div>
 
             <div class="row">
-                <div class="offset-sm-4 col-sm-4 d-grid">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-                <div class="col-sm-4 d-grid">
-                    <a class="btn btn-outline-primary" asp-asp-controller="NurseRequest" asp-action="Index" role="button">Cancel</a>
-                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-danger" asp-action="Delete" asp-controller="Dashboard">Delete</button>
             </div>
         </form>
     </div>

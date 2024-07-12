@@ -12,8 +12,8 @@ using SignalR8.Data;
 namespace SignalR8.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240711161727_CreateInitial")]
-    partial class CreateInitial
+    [Migration("20240712022040_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

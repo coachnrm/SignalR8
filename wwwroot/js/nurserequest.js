@@ -1,16 +1,16 @@
 // "use strict";
 
-// var connection = new signalR.HubConnectionBuilder().withUrl("/nurseRequestHub").build();
+// var connection = new signalR.HubConnectionBuilder().withUrl("/dashboardHub").build();
 
 // $(function () {
-// 	connection.start().then(function () {
-// 		// alert('Connected to dashboardHub');
+//  	connection.start().then(function () {
+// 		 alert('Connected to dashboardHub');
 
-// 		InvokeNurseRequests();
+//  		InvokeNurseRequests();
 
-// 	}).catch(function (err) {
-// 		return console.error(err.toString());
-// 	});
+//  	}).catch(function (err) {
+//  		return console.error(err.toString());
+//  	});
 // });
 
 // // NurseRequest
@@ -26,15 +26,21 @@
 // });
 
 // function BindNurseRequestsToGrid(nurseRequests) {
-// 	$('#tblNurseRequest tbody').empty();
+// 	$('#tblNurseRequest').empty();
 
 // 	var tr;
 // 	$.each(nurseRequests, function (index, nurseRequest) {
 // 		tr = $('<tr/>');
-// 		tr.append(`<td>${(index + 1)}</td>`);
-// 		tr.append(`<td>${nurseRequest.Department}</td>`);
-// 		tr.append(`<td>${nurseRequest.Remark}</td>`);
-// 		tr.append(`<td>${nurseRequest.QN}</td>`);
-// 		$('#tblProduct').append(tr);
+// 		tr.append(`<td>${(index +1)}</td>`);
+// 		tr.append(`<td>${nurseRequest.qn}</td>`);
+// 		tr.append(`<td>${nurseRequest.qnName}</td>`);
+// 		tr.append(`<td>${nurseRequest.startPoint}</td>`);
+// 		tr.append(`<td>${nurseRequest.endPoint}</td>`);
+// 		tr.append(`<td>${nurseRequest.patientType}</td>`);
+// 		tr.append(`<td>${nurseRequest.poterFname}</td>`);
+// 		tr.append(`<td>${nurseRequest.materialType}</td>`);
+// 		tr.append(`<td>${nurseRequest.urentType}</td>`);
+// 		tr.append(`<td>${nurseRequest.remark}</td>`);
+// 		$('#tblNurseRequest').append(tr);
 // 	});
-// } 
+// }

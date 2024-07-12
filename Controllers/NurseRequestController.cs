@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SignalR8.Data;
 using SignalR8.Models;
 
@@ -6,15 +7,19 @@ namespace SignalR8.Controllers;
 
  public class NurseRequestController : Controller
     {
-        private readonly ApplicationDbContext context;
-        public NurseRequestController(ApplicationDbContext context)
+        private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _oHostEnvironment;
+
+        public NurseRequestController(ApplicationDbContext context, IWebHostEnvironment oHostEnvironment)
         {
-            this.context = context;
+            _context = context;
+            _oHostEnvironment = oHostEnvironment;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var nurserequest = context.NurseRequest.OrderByDescending(p => p.JobId).ToList();
-            return View(nurserequest);
+           
+            var x = await _context.NurseRequest.ToListAsync();
+            return View(x);
         }
          public IActionResult Create()
          {
@@ -22,97 +27,113 @@ namespace SignalR8.Controllers;
          }
 
         [HttpPost]
-        public async Task<IActionResult> Create(NurseRequestDto nurseRequestDto)
+        public async Task<IActionResult> Create(AddNurseRequestViewModel addNurseRequest)
         {
-            if (ModelState.IsValid)
+            var nurseRequest = new NurseRequest()
             {
-                return View(nurseRequestDto);
-            }
-            
-            NurseRequest nurseRequest = new NurseRequest()
-            {
-                QN = nurseRequestDto.QN,
-                QNName = nurseRequestDto.QNName,
-                StartPoint = nurseRequestDto.StartPoint,
-                EndPoint = nurseRequestDto.EndPoint,
-                MaterialType = nurseRequestDto.MaterialType,
-                UrentType = nurseRequestDto.UrentType,
-                PatientType = nurseRequestDto.PatientType,
-                Remark = nurseRequestDto.Remark,
-                Department = "null",
-                PoterFname = "null",
-                QNAge = "null",
-                QNSex = "null",
-            };
-            await context.NurseRequest.AddAsync(nurseRequest);
-            await context.SaveChangesAsync();
-            return RedirectToAction("Index", "NurseRequest");
-        }
-
-        public IActionResult Edit(int id)
-        {
-            var nurseRequest = context.NurseRequest.Find(id);
-            if(nurseRequest == null)
-            {
-                return RedirectToAction("Index", "NurseRequest");
-            }
-            var nurseRequestDto = new NurseRequestDto()
-            {
-                QN = nurseRequest.QN,
-                QNName = nurseRequest.QNName,
-                StartPoint = nurseRequest.StartPoint,
-                EndPoint = nurseRequest.EndPoint,
-                MaterialType = nurseRequest.MaterialType,
-                UrentType = nurseRequest.UrentType,
-                PatientType = nurseRequest.PatientType,
-                Remark = nurseRequest.Remark,
-                Department = "null",
-                PoterFname = "null",
-                QNAge = "null",
-                QNSex = "null",
+                ReqDate = addNurseRequest.ReqDate,
+                ReqTime = addNurseRequest.ReqTime,
+                EndDate = addNurseRequest.EndDate,
+                EndTime = addNurseRequest.EndTime,
+                UserId = addNurseRequest.UserId,
+                Department = addNurseRequest.Department,
+                StartPoint = addNurseRequest.StartPoint,
+                EndPoint = addNurseRequest.EndPoint,
+                MaterialType = addNurseRequest.MaterialType,
+                UrentType = addNurseRequest.UrentType,
+                PatientType = addNurseRequest.PatientType,
+                PoterFname = addNurseRequest.PoterFname,
+                Remark = addNurseRequest.Remark,
+                QN = addNurseRequest.QN,
+                QNName = addNurseRequest.QNName,
+                QNAge = addNurseRequest.QNAge,
+                QNSex = addNurseRequest.QNSex,
             };
 
-             ViewData["NurseRequestId"] = nurseRequest.JobId;
-
-            return View(nurseRequestDto);
+             await _context.NurseRequest.AddAsync(nurseRequest);
+             await _context.SaveChangesAsync();
+            return RedirectToAction("Index","NurseRequest");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> View(int id)
+        {
+            var y = await _context.NurseRequest.FirstOrDefaultAsync(x => x.JobId == id);
+
+            if (y != null)
+            {
+                var viewModel = new UpdateNurseRequestViewModel()
+                {
+                    JobId = y.JobId,
+                    ReqDate = y.ReqDate,
+                    ReqTime = y.ReqTime,
+                    EndDate = y.EndDate,
+                    EndTime = y.EndTime,
+                    UserId = y.UserId,
+                    Department = y.Department,
+                    StartPoint = y.StartPoint,
+                    EndPoint = y.EndPoint,
+                    MaterialType = y.MaterialType,
+                    UrentType = y.UrentType,
+                    PatientType = y.PatientType,
+                    PoterFname = y.PoterFname,
+                    Remark = y.Remark,
+                    QN = y.QN,
+                    QNName = y.QNName,
+                    QNAge = y.QNAge,
+                    QNSex = y.QNSex,
+                };
+
+                return await Task.Run(() => View("View", viewModel));
+            }
+
+            return RedirectToAction("Index");
+        }
+
         [HttpPost]
-         public IActionResult Edit(int id, NurseRequestDto nurseRequestDto)
-         {
-            var nurseRequest = context.NurseRequest.Find(id);
-            if(nurseRequest == null)
-            {
-                return RedirectToAction("Index", "NurseRequest");
-            }
-            if (ModelState.IsValid)
-            {
-                ViewData["NurseRequestId"] = nurseRequest.JobId;
-                return View(nurseRequestDto);
-            }
-
-            nurseRequest.QN = nurseRequestDto.QN;
-            nurseRequest.QNName = nurseRequestDto.QNName;
-            nurseRequest.StartPoint = nurseRequestDto.StartPoint;
-            nurseRequest.EndPoint = nurseRequestDto.EndPoint;
-            nurseRequest.MaterialType = nurseRequestDto.MaterialType;
-            nurseRequest.UrentType = nurseRequestDto.UrentType;
-            nurseRequest.PatientType = nurseRequestDto.PatientType;
-            nurseRequest.Remark = nurseRequestDto.Remark;
-
-            context.SaveChanges();
-
-            return RedirectToAction("Index", "NurseRequest");
-         }
-         public IActionResult Delete(int id)
+        public async Task<IActionResult> View(UpdateNurseRequestViewModel model)
         {
-            var nurseRequest = context.NurseRequest.Find(id);
-            if(nurseRequest == null)
-            {
-                return RedirectToAction("Index", "NurseRequest");
-            }
-            context.NurseRequest.Remove(nurseRequest);
-            context.SaveChanges(true);
+            var z = await _context.NurseRequest.FindAsync(model.JobId);
 
-            return RedirectToAction("Index", "NurseRequest");
+            if (z != null)
+            {
+                z.ReqDate = model.ReqDate;
+                z.ReqTime = model.ReqTime;
+                z.EndDate = model.EndDate;
+                z.EndTime = model.EndTime;
+                z.UserId = model.UserId;
+                z.Department = model.Department;
+                z.StartPoint = model.StartPoint;
+                z.EndPoint = model.EndPoint;
+                z.MaterialType = model.MaterialType;
+                z.UrentType = model.UrentType;
+                z.PatientType = model.PatientType;
+                z.PoterFname = model.PoterFname;
+                z.Remark = model.Remark;
+                z.QN = model.QN;
+                z.QNName = model.QNName;
+                z.QNAge = model.QNAge;
+                z.QNSex = model.QNSex;
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Index");
+        }
+         [HttpPost]
+        public async Task<IActionResult> Delete(UpdateNurseRequestViewModel model)
+        {
+            var a = await _context.NurseRequest.FindAsync(model.JobId);
+
+            if (a != null)
+            {
+                _context.NurseRequest.Remove(a);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
         }
     }
