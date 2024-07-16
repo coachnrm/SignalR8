@@ -8,12 +8,13 @@ namespace SignalR8.Controllers;
  public class NurseRequestController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly IWebHostEnvironment _oHostEnvironment;
+        //private readonly IWebHostEnvironment _oHostEnvironment;
+        private readonly ILogger<NurseRequestController> _logger;
 
-        public NurseRequestController(ApplicationDbContext context, IWebHostEnvironment oHostEnvironment)
+        public NurseRequestController(ApplicationDbContext context, ILogger<NurseRequestController> logger)
         {
             _context = context;
-            _oHostEnvironment = oHostEnvironment;
+            _logger = logger;
         }
         public async Task<IActionResult> Index()
         {

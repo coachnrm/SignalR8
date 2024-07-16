@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SignalR8")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3a83815600095b8b8eb19ffcc6aa554fcf111ebe")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cefc6d6a9358c88a1e7fb81484a58cf281405ae5")]
 [assembly: System.Reflection.AssemblyProductAttribute("SignalR8")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SignalR8")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

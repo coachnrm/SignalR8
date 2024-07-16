@@ -2,6 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using SignalR8.Data;
 using SignalR8.Models;
+using ClosedXML.Excel;
+using System.Data;
+using System.Diagnostics;
 
 namespace SignalR8.Controllers
 {
@@ -18,6 +21,44 @@ namespace SignalR8.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpGet]
+        public async Task<FileResult> ExportProductInExcel()
+        {
+            var products = await  _context.Product.ToListAsync();
+            var fileName = "products.xlsx";
+            return GenerateExcel(fileName, products);
+        }
+
+        private FileResult GenerateExcel(string fileName, IEnumerable<Product> products)
+        {
+            DataTable dataTable = new DataTable("Persons");
+            dataTable.Columns.AddRange(new DataColumn[]
+            {
+                new DataColumn("Id"),
+                new DataColumn("Name"),
+                new DataColumn("Category"),
+                new DataColumn("Price")
+            });
+
+            foreach (var emp in products)
+            {
+                dataTable.Rows.Add(emp.Id, emp.Name, emp.Category, emp.Price);
+            }
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                wb.Worksheets.Add(dataTable);
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+
+                    return File(stream.ToArray(),
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        fileName);
+                }
+            }
         }
 
         [HttpGet]
